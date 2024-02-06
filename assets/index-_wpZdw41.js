@@ -1,0 +1,1 @@
+import{j as r,B as s,b as t}from"./vendor-aZqaFPTA.js";const n=()=>r.jsxs(r.Fragment,{children:[r.jsx("h1",{children:"404, Страница не найдена"}),r.jsx(s,{children:r.jsx(t,{to:"/",children:"На главную"})})]});export{n as ErrorPage,n as default};

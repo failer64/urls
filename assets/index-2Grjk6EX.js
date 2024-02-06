@@ -1,1 +1,0 @@
-import{j as r,b as e}from"./vendor-aZqaFPTA.js";const o=()=>r.jsxs(r.Fragment,{children:[r.jsx("h1",{children:"404 Page not found"}),r.jsx(e,{to:"/",children:"go back"})]});export{o as ErrorPage,o as default};
