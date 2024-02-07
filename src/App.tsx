@@ -13,12 +13,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   return (
-    <Layout
-      style={{
-        background: "transparent",
-        padding: "20px",
-      }}
-    >
+    <Layout className="container">
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/register" element={<Register />} />

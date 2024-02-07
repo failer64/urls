@@ -136,17 +136,17 @@ export const Content = () => {
   };
 
   return (
-    <Card style={{ width: "700px" }}>
+    <Card className="content" bordered={false}>
       <Title style={{ textAlign: "center" }}>Таблица</Title>
       <Table
-        bordered
+        bordered={false}
         rowKey={(row) => row.id}
         columns={columns}
         dataSource={data}
         loading={loading}
         onChange={handleTableChange}
         pagination={pagination}
-        style={{ marginBottom: "10px" }}
+        className="table"
       />
       <Select
         mode="multiple"
