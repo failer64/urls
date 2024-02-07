@@ -136,7 +136,7 @@ export const Content = () => {
   };
 
   return (
-    <Card style={{ width: 800 }}>
+    <Card style={{ width: "700px" }}>
       <Title style={{ textAlign: "center" }}>Таблица</Title>
       <Table
         bordered
@@ -154,7 +154,7 @@ export const Content = () => {
         style={{ width: "100% " }}
         onChange={handleChange}
         options={sortArr}
-        disabled={loading || data.length < 2}
+        disabled={loading || data.length < 1}
         placeholder={"Выберите сортировку"}
       />
       <UrlForm hanldeSumbit={hanldeSumbit} />

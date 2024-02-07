@@ -24,6 +24,7 @@ const UniversalForm: FC<Props> = ({ error, setError, onSubmit }) => {
 
   return (
     <Form
+      layout="vertical"
       autoComplete="off"
       onChange={() => setError("")}
       onFinish={handleSubmit}

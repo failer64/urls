@@ -39,7 +39,7 @@ const LoginPage: FC<Props> = ({ isAuth, setIsAuth }) => {
   if (isAuth) return <Navigate to={`/`} />;
 
   return (
-    <Card>
+    <Card style={{ width: "400px" }}>
       <Title>Авторизация</Title>
       <UniversalForm onSubmit={onSubmit} error={error} setError={setError} />
       Или <Link to={"/register"}>зарегистрироваться!</Link>

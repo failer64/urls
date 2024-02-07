@@ -31,7 +31,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <Card>
+    <Card style={{ width: "400px" }}>
       <Title>Регистрация</Title>
       <UniversalForm onSubmit={onSubmit} error={error} setError={setError} />
       Или <Link to={"/login"}>войти!</Link>
