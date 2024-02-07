@@ -1,5 +1,4 @@
 import { Suspense, lazy, useState } from "react";
-import "./App.css";
 import Preloader from "./components/Preloader";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "antd";
