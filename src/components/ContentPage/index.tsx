@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchWithAuth } from "../../helpers";
+import { fetchData, fetchWithAuth } from "../../helpers";
 import {
   Button,
   Card,
@@ -7,23 +7,24 @@ import {
   Space,
   Table,
   TableColumnsType,
-  TableProps,
   Typography,
 } from "antd";
 import { UrlForm } from "./UrlForm";
 import { API_BASE_URL } from "../../api";
-import { fetchData } from "../../helpers";
 
 const { Title } = Typography;
 
-type ItemsType = { counter: number; id: number; short: string; target: string };
+export type ItemsType = {
+  counter: number;
+  id: number;
+  short: string;
+  target: string;
+};
 
-export interface TableParams {
-  pagination: {
-    current?: number | undefined;
-    pageSize?: number | undefined;
-    total?: number | undefined;
-  };
+export interface Pagination {
+  current?: number;
+  pageSize?: number;
+  total?: number;
 }
 
 export type SortType =
@@ -76,45 +77,29 @@ const columns: TableColumnsType<ItemsType> = [
 
 export const Content = () => {
   const [data, setData] = useState<ItemsType[]>([]);
-  const [sort, setSort] = useState<SortType[]>(["desc_counter"]);
+  const [sort, setSort] = useState<SortType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 7,
-      total: 0,
-    },
+  const [pagination, setPagination] = useState<Pagination>({
+    current: 1,
+    pageSize: 7,
+    total: 0,
   });
 
   useEffect(() => {
     setLoading(true);
-    fetchData(sort, tableParams)
+    fetchData(sort, pagination)
       .then((res) => {
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: +(res.headers.get("x-total-count") || 0),
-          },
-        });
+        setPagination((prev) => ({
+          ...prev,
+          total: +(res.headers.get("x-total-count") || 0),
+        }));
         return res.json();
       })
       .then((data) => {
         setData(data);
         setLoading(false);
       });
-  }, [JSON.stringify(tableParams), sort]);
-
-  const handleTableChange: TableProps["onChange"] = (pagination) => {
-    setTableParams({
-      pagination,
-    });
-
-    // `dataSource` is useless since `pageSize` changed
-    if (pagination.pageSize !== tableParams.pagination.pageSize) {
-      setData([]);
-    }
-  };
+  }, [JSON.stringify(pagination), sort]);
 
   const hanldeSumbit = async (link: string) => {
     const response = await fetchWithAuth(
@@ -124,20 +109,26 @@ export const Content = () => {
       }
     );
     if (response.ok) {
-      const data = await response.json();
-      setData((prev) => [data, ...prev]);
-      // setTableParams((prev) => ({
-      //   ...prev,
-      //   pagination: {
-      //     current: prev.pagination.current,
-      //     pageSize: prev.pagination.pageSize,
-      //     total: (prev.pagination.total ?? 0) + 1,
-      //   },
-      // }));
+      const link = await response.json();
+      if (data.length === pagination.pageSize) {
+        setData((prev) => [link, ...prev.slice(0, -1)]);
+        setPagination((prev) => ({
+          ...prev,
+          total: (prev.total ?? 0) + 1,
+        }));
+      } else {
+        setData((prev) => [link, ...prev]);
+      }
     } else {
       const error = await response.json();
       console.error(error);
     }
+  };
+
+  const handleTableChange = (pagination: Pagination) => {
+    setPagination({
+      ...pagination,
+    });
   };
 
   const handleChange = (value: SortType[]) => {
@@ -154,7 +145,7 @@ export const Content = () => {
         dataSource={data}
         loading={loading}
         onChange={handleTableChange}
-        pagination={tableParams.pagination}
+        pagination={pagination}
         style={{ marginBottom: "10px" }}
       />
       <Select
@@ -164,6 +155,7 @@ export const Content = () => {
         onChange={handleChange}
         options={sortArr}
         disabled={loading || data.length < 2}
+        placeholder={"Выберите сортировку"}
       />
       <UrlForm hanldeSumbit={hanldeSumbit} />
     </Card>

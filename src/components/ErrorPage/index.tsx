@@ -1,13 +1,13 @@
-import { Button } from "antd";
 import { Link } from "react-router-dom";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 export const ErrorPage = () => {
   return (
     <>
-      <h1>404, Страница не найдена</h1>
-      <Button>
-        <Link to={"/"}>На главную</Link>
-      </Button>
+      <Title style={{ color: "inherit" }}>404, Страница не найдена</Title>
+      <Link to={"/"}>На главную</Link>
     </>
   );
 };

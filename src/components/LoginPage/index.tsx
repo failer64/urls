@@ -1,19 +1,18 @@
 import { Link, Navigate } from "react-router-dom";
 import UniversalForm, { FormFields } from "../UniversalForm";
 import { Card, Typography } from "antd";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { API_BASE_URL } from "../../api";
 import Popup from "../Popup";
 
 const { Title } = Typography;
 
-const LoginPage = ({
-  isAuth,
-  setIsAuth,
-}: {
+type Props = {
   isAuth: boolean;
   setIsAuth: (value: boolean) => void;
-}) => {
+};
+
+const LoginPage: FC<Props> = ({ isAuth, setIsAuth }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
 
