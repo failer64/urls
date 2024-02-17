@@ -14,7 +14,7 @@ export async function fetchWithAuth(url: string, options: Options) {
   let tokenData = null; // объявляем локальную переменную tokenData
 
   if (sessionStorage.authToken) {
-    // если в sessionStorage присутствует tokenData, то берем её
+    // если в sessionStorage присутствует tokenData, то берем его
     tokenData = JSON.parse(sessionStorage.authToken);
   }
 

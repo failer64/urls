@@ -1,16 +1,17 @@
 import { Link, Navigate } from "react-router-dom";
 import UniversalForm, { FormFields } from "../UniversalForm";
-import { useState } from "react";
 import { Card, Typography } from "antd";
 import { API_BASE_URL } from "../../api";
 import Popup from "../Popup";
+import { useError } from "../../hooks/useError";
+import { useToggle } from "../../hooks/useToggle";
 
 const { Title } = Typography;
 
 const RegisterPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRegister, setIsRegister] = useState(false);
-  const [error, setError] = useState("");
+  const [isRegister, setIsRegister] = useToggle(false);
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
+  const { error, setError } = useError("");
 
   if (isRegister) return <Navigate to={`/login`} />;
 

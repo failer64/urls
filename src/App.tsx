@@ -3,9 +3,10 @@ import Preloader from "./components/Preloader";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "antd";
 import { RequireAuth } from "./components/RequireAuth";
+import LoginPage from "./components/LoginPage";
 
 const Register = lazy(() => import("./components/RegisterPage"));
-const Login = lazy(() => import("./components/LoginPage"));
+//const Login = lazy(() => import("./components/LoginPage"));
 const Error = lazy(() => import("./components/ErrorPage"));
 const Content = lazy(() => import("./components/ContentPage"));
 
@@ -19,7 +20,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route
             path="/login"
-            element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />}
+            element={<LoginPage isAuth={isAuth} setIsAuth={setIsAuth} />}
           />
           <Route
             path="/"

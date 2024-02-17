@@ -1,9 +1,11 @@
 import { Link, Navigate } from "react-router-dom";
 import UniversalForm, { FormFields } from "../UniversalForm";
 import { Card, Typography } from "antd";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { API_BASE_URL } from "../../api";
 import Popup from "../Popup";
+import { useError } from "../../hooks/useError";
+import { useToggle } from "../../hooks/useToggle";
 
 const { Title } = Typography;
 
@@ -13,8 +15,8 @@ type Props = {
 };
 
 const LoginPage: FC<Props> = ({ isAuth, setIsAuth }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState("");
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
+  const { error, setError } = useError("");
 
   const onSubmit = async (values: FormFields) => {
     const response = await fetch(API_BASE_URL + "login", {

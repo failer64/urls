@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { UrlForm } from "./UrlForm";
 import { API_BASE_URL } from "../../api";
+import { useToggle } from "../../hooks/useToggle";
 
 const { Title } = Typography;
 
@@ -35,7 +36,12 @@ export type SortType =
   | "desc_target"
   | "desc_counter";
 
-const sortArr = [
+type ArrType = {
+  value: SortType;
+  label: string;
+};
+
+const sortArr: ArrType[] = [
   { value: "asc_short", label: "По алфавиту короткой ссылки" },
   { value: "asc_target", label: "По алфавиту исходной ссылки" },
   { value: "asc_counter", label: "По увелечению просмотров" },
@@ -78,7 +84,7 @@ const columns: TableColumnsType<ItemsType> = [
 export const Content = () => {
   const [data, setData] = useState<ItemsType[]>([]);
   const [sort, setSort] = useState<SortType[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useToggle(false);
   const [pagination, setPagination] = useState<Pagination>({
     current: 1,
     pageSize: 7,
@@ -97,6 +103,8 @@ export const Content = () => {
       })
       .then((data) => {
         setData(data);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [JSON.stringify(pagination), sort]);
@@ -156,6 +164,8 @@ export const Content = () => {
         options={sortArr}
         disabled={loading || data.length < 1}
         placeholder={"Выберите сортировку"}
+        allowClear
+        showSearch={false}
       />
       <UrlForm hanldeSumbit={hanldeSumbit} />
     </Card>
